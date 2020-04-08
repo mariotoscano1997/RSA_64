@@ -1,0 +1,36 @@
+import cryptomath, time
+def isqrt(n):
+	x=n
+	y=(x+n//x)//2
+	while(y<x):
+		x=y
+		y=(x+n//x)//2
+	return x
+def fermat(n):
+	t0=isqrt(n)+1
+	counter=0
+	t=t0+counter
+	temp=isqrt((t*t)-n)
+	while((temp*temp)!=((t*t)-n)):
+		counter+=1
+		t=t0+counter
+		temp=isqrt((t*t)-n)
+	s=temp
+	p=t+s
+	q=t-s
+	return p,q
+
+print("Enter the number to factor of form (p*q):")
+n=int(input())
+print("Calculating p and q...")
+start= time.time()
+p,q=fermat(n)
+end= time.time()
+print("Time: %s seconds" %(end-start))
+print("Your first number   : ",int(p))
+print("Your Second number  : ",int(q))
+print("Inset the public exponent (e)")
+e=int(input())
+print('Calculating d that is mod inverse of e...')
+d = cryptomath.findModInverse(e, (p - 1) * (q - 1))
+print("The private exponent (d) is ", int(d))
